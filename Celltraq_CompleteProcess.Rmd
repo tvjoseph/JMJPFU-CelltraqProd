@@ -656,3 +656,5 @@ library(caret)
 getwd()
 ```
 Checking this markdown file
+
+Thank you Lord for the new update
