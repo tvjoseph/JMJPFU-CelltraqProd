@@ -80,8 +80,8 @@ The next steps are to load the input files into the system. Listed below are the
 condFile1 <- "Battery Conductance I.csv" # Name of files
 condFile2 <- "Battery Conductance II.csv"
 
-path1 <- paste0("C:/Toms/customers/Celltraq/excelfiles/Conductance/",condFile1) # Path of files
-path2 <- paste0("C:/Toms/customers/Celltraq/excelfiles/Conductance/",condFile2)
+path1 <- paste0("D:/Celltraq/Celltraq_Git/Quadrant4/Quadrant4/Conductance/",condFile1) # Path of files
+path2 <- paste0("D:/Celltraq/Celltraq_Git/Quadrant4/Quadrant4/Conductance//",condFile2)
 
 
 condDf1 <- read.csv(path1,sep="|",header=FALSE)
@@ -101,22 +101,30 @@ condDf2$Unique_ID[1] <- paste(condDf2$Unique_ID[2])
 
 condDf <- rbind(condDf1,condDf2)
 
+# Deleting the sub files
+
+rm(condDf1,condDf2)
+
 ```
 
 Reading the Battery discharge data. The number of files are large. So have to set a path and read in the data
+
+D:\Celltraq\Celltraq_Git\Quadrant4\Quadrant4\Discharge
 
 ```{r}
 
 # Discharge Files
 
-filename <- list.files(path = "C:/Toms/customers/Celltraq/excelfiles/Discharge")
+#filename <- list.files(path = "D:/Celltraq/Celltraq_Git/Quadrant4/Quadrant4/Discharge")
 # Creating an empty data frame
-dischargeDf1 <- data.frame(matrix(nrow=0,ncol= 12)) # Creating an empty data frame
-colnames(dischargeDf1) <- c("Unique_ID","Site_Name","Plant_Name","String_Name","Battery_no","Measurement_Timestamp","Voltage","Current","Manufacturer","Model","Battery_Type","Battery_Voltage"  )# Naming the data frame
+#dischargeDf1 <- data.frame(matrix(nrow=0,ncol= 12)) # Creating an empty data frame
+#colnames(dischargeDf1) <- c("Unique_ID","Site_Name","Plant_Name","String_Name","Battery_no","Measurement_Timestamp","Voltage","Current","Manufacturer","Model","Battery_Type","Battery_Voltage"  )# Naming the data frame
 
-for(i in 1:2){
+
+
+for(i in 16:20){
   
-  temppath <- paste0("C:/Toms/customers/Celltraq/excelfiles/Discharge/",filename[i])
+  temppath <- paste0("D:/Celltraq/Celltraq_Git/Quadrant4/Quadrant4/Discharge/",filename[i])
   
   temp_discharge <-  read.csv(temppath,sep="|",header=FALSE) # Reading in the file
   temp_discharge[1,1] <- paste(temp_discharge[2,1]) # The first record for battery id is always in a bad format. So repasting from the second record
@@ -124,6 +132,10 @@ for(i in 1:2){
   dischargeDf1 <- rbind(dischargeDf1,temp_discharge) # Condolidating data from each file
   
 } # End of for loop for consolidating all the data
+
+# Removing the temp_discharge file
+
+rm(temp_discharge)
 
 ```
 
@@ -139,16 +151,16 @@ for(i in 1:2){
 ```{r}
 # Voltage and Temperature files
 
-volttempDf1 <- data.frame(matrix(nrow=0,ncol= 20))
+# volttempDf1 <- data.frame(matrix(nrow=0,ncol= 20))
+# 
+# colnames(volttempDf1) <- c("Unique_ID","Site_Name","Plant_Name","String_Name","Battery_no","Measurement_Timestamp","Voltage","Voltage_High_Alarm","Voltage_High_Warning","Voltage_Low_Warning","Voltage_Low_Alarm","Temperature","Temperature_High_Alarm","Temperature_High_Warning","Temperature_Low_Warning","Temperature_Low_Alarm","Manufacturer","Model","Battery_Type","Battery_Voltage" )
+# 
+# filename <- list.files(path = "D:/Celltraq/Celltraq_Git/Quadrant4/Quadrant4/VoltageTemp")
 
-colnames(volttempDf1) <- c("Unique_ID","Site_Name","Plant_Name","String_Name","Battery_no","Measurement_Timestamp","Voltage","Voltage_High_Alarm","Voltage_High_Warning","Voltage_Low_Warning","Voltage_Low_Alarm","Temperature","Temperature_High_Alarm","Temperature_High_Warning","Temperature_Low_Warning","Temperature_Low_Alarm","Manufacturer","Model","Battery_Type","Battery_Voltage" )
 
-filename <- list.files(path = "C:/Toms/customers/Celltraq/excelfiles/VoltageTemp")
-
-
-for(i in 1:2){
+for(i in 16:20){
   
-  temppath <- paste0("C:/Toms/customers/Celltraq/excelfiles/VoltageTemp/",filename[i])
+  temppath <- paste0("D:/Celltraq/Celltraq_Git/Quadrant4/Quadrant4/VoltageTemp/",filename[i])
   
   temp_voltemp <-  read.csv(temppath,sep="|",header=FALSE)
   temp_voltemp[1,1] <- paste(temp_voltemp[2,1])
@@ -156,6 +168,9 @@ for(i in 1:2){
   volttempDf1 <- rbind(volttempDf1,temp_voltemp)
 }
 
+# Removing the temperory files
+
+rm(temp_voltemp)
 
 
 ```
